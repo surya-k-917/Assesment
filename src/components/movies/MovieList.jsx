@@ -1,46 +1,37 @@
 import React, { useState } from 'react';
-import { orderBy } from "lodash";
 import data from './top5moviesList.json'
-import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@material-ui/core';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import MovieDetail from './MovieDetail';
 
 function MovieList() {
 
     const [movieList] = useState(data)
-    const dispatch = useDispatch()
     const { components } = movieList;
-    const count = useSelector(state => state.movie)
+    const [itemDetail, setItemDetail] = useState();
+
+    function handleClick(id) {
+        const details = components[1].items.filter(selectedList => id === selectedList.id)[0];
+        setItemDetail(details);
+    }
 
     return (
-        <div>
-            <h1>Total watched moviesList : {count}</h1>
-            {
-                components?.map((item) => {
-                    return (
-                        <div style={{ display: "flex" }}>
-                            {
-                                orderBy(item.items, 'releaseDate').map((Imageslist, i) =>
-                                    <div>
-                                        <img style={{ padding: "12px" }} key={Imageslist.id} src={Imageslist.imageUrl} height="350px" width="300px" alt="" />
-                                        <h2>{i + 1}</h2>
-                                        <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'ADD' })}>Adding Watched List</Button>
-                                        <br />
-                                        <br />
-                                        <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'REMOVE' })}>Removing Watched List</Button>
-                                        <h3>Movie Title: {Imageslist.title}</h3>
-                                        <p>{Imageslist.synopsis}</p>
-                                        <h3>Year: {Imageslist.releaseDate}</h3>
-                                    </div>
-                                )
-                            }
-
-                        </div>
-
+        <MDBContainer className="mt-5">
+            <div className='header'>Movies List</div>
+            <MDBRow>
+                {
+                    components[1].items.map((item) =>
+                        <MDBCol lg="2" md="6" className="mb-4">
+                            <div className="image"><img key={item.id} src={item.imageUrl} onClick={() => handleClick(item.id)} className="img-fluid z-depth-1" alt="" /></div>
+                            <h3 className='title'>{item.title}</h3>
+                        </MDBCol>
                     )
-                })
-            }
-        </div>
+                }
+            </MDBRow>
+            {itemDetail && <div>
+                <MovieDetail details={itemDetail} />
+            </div>}
+        </MDBContainer>
     )
 }
 
