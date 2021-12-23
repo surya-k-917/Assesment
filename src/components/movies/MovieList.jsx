@@ -49,9 +49,9 @@ const MovieList = () => {
         option: (styles, { isFocused, isSelected }) => ({
             ...styles,
             background: isFocused
-                ? 'hsla(291, 64%, 42%, 0.5)'
+                ? 'orange'
                 : isSelected
-                    ? 'hsla(291, 64%, 42%, 1)'
+                    ? 'pink'
                     : undefined,
             zIndex: 1
         }),
