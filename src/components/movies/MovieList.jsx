@@ -32,12 +32,14 @@ const MovieList = () => {
             const filterData = orderBy(components[1].items, 'releaseDate');
             setFilteredData(filterData);
             setShowFilteredMovies(true);
+            setItemDetail('');
             setAllMovies(false);
         } else if (event.valueToOrderBy === 'rank') {
             const filterData = orderBy(components[1].items, 'rank');
             setFilteredData(filterData);
             setShowFilteredMovies(true);
             setAllMovies(false);
+            setItemDetail('');
         }
     }
 
